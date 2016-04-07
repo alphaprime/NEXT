@@ -81,7 +81,24 @@ div.option{
 }
 </style>
 <br>
-<!-- 
+{% if query.context_type %}
+<div class="row" id="center">
+  <div class="col-xs-12"> 
+      {% if query.context_type == "text" %}
+      <div style="display:table;height:100%;width:100%;">
+		<div class="center-block text"> 
+		  {{ query.context }}
+		</div>
+      </div>
+      {% elif query.context_type == "image" or query.context_type == "img" %}
+      <div class="image_container">
+		<img src='{{ query.context }}'> </img>
+      </div>
+      {% endif %}
+  </div>
+</div>
+{% endif %}
+<!-- query -->
 <div class="row" id="center_text">
   <div class="col-xs-12">
     {% if query.target_indices[0].target.primary_type == "image" or query.target_indices[0].target.primary_type == "img"%}
@@ -95,27 +112,8 @@ div.option{
     {% endif %}
   </div>
 </div>
- -->
- <div>Which of these alternatives would you prefer?</div>
 
-<div id="query" class="row">
-  <div class="option"
-	  id="0"
-	  onclick="submit(0.0, 0)">
-    <div class="text_container">
-      <div class="text">1 dollar today</div>
-    </div>
-  </div>
-  <div class="option"
-	  id="1"
-	  onclick="submit(1., 1)">
-    <div class="text_container">
-      <div class="text">10 dollars in {{ query.target_indices[0].target.primary_description }} days</div>
-    </div>
-  </div>
-</div>
-
-<!-- 
+<!-- labels -->
 <div id="query" class="row">
   {% if query.labels %}
   {% for label in query.labels %}
@@ -129,7 +127,7 @@ div.option{
   {% endfor %}
   {% endif %}
 </div>
- -->
+
 
 <script>
   var submit = function(reward, index) {

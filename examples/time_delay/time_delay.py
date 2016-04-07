@@ -24,7 +24,6 @@ def run_all(assert_200):
 
   # clients run in simultaneous fashion using multiprocessing library
   num_clients = 10
-
   pool = Pool(processes=num_clients)           
 
 
@@ -33,7 +32,7 @@ def run_all(assert_200):
   delta = 0.05
   supported_alg_ids = ['RoundRobin','LilUCB']
 
-  labels = [{'label':'bad','reward':1.},{'label':'neutral','reward':2.},{'label':'good','reward':3.}]
+  labels = [{'label':'1 dollar today','reward':0.},{'label':'The alternative','reward':1.}]
 
   alg_list = []
   for i, alg_id in enumerate(supported_alg_ids):
@@ -52,6 +51,13 @@ def run_all(assert_200):
 
   print algorithm_management_settings
 
+  target_set = [ ]
+  for i in range(50):
+    target_set.append({'primary_description':'%d' % (i),
+            'primary_type':'text',
+            'alt_description':'',
+            'alt_type':'text'})
+
 
   #################################################
   # Test POST Experiment
@@ -59,7 +65,8 @@ def run_all(assert_200):
   initExp_args_dict = {}
   initExp_args_dict['args'] = {}
 
-  initExp_args_dict['args']['targets'] = {'n':n}
+  # initExp_args_dict['args']['targets'] = {'n':n}
+  initExp_args_dict['args']['targets'] = {'targetset':target_set}
   initExp_args_dict['args']['failure_probability'] = delta
   initExp_args_dict['args']['participant_to_algorithm_management'] = 'one_to_many' # 'one_to_one'  #optional field
   initExp_args_dict['args']['algorithm_management_settings'] = algorithm_management_settings #optional field
